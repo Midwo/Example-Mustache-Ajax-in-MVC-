@@ -1,6 +1,6 @@
-﻿
+﻿@model ExampleMustache_MVC.Models.MessageModel
 @{
-    Layout = null;
+    Layout = "~/Views/Share/_Template.cshtml";
 }
 
 <!DOCTYPE html>
@@ -12,7 +12,86 @@
 </head>
 <body>
     <div> 
-   
+ HTML Helpers MVC .BeginFrom <br/>
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(a => a.Nick, "Nick ")
+    @Html.TextBoxFor(a => a.Nick)
+    <br />
+    @Html.LabelFor(a => a.Contents, "Content: ")
+    @Html.TextBoxFor(a => a.Contents)
+    <br/>
+    @Html.LabelFor(a => a.Date, "Date: ")
+    @Html.TextBoxFor(a => a.Date)
+
+    <input type="submit" value="Send" />
+}
+
     </div>
-</body>
+
+    
+  
+       <br/><br /><br /><br /><br /><br /><br />
+    Ajax.BeginForm
+       @using (Ajax.BeginForm(new AjaxOptions()
+       {
+           UpdateTargetId = "AjaxBegin",
+           HttpMethod = "Post"
+
+
+
+       }))
+       {
+        @Html.LabelFor(a => a.Nick, "Nick ")
+        @Html.TextBoxFor(a => a.Nick)
+        <br />
+        @Html.LabelFor(a => a.Contents, "Content: ")
+        @Html.TextBoxFor(a => a.Contents)
+        <br />
+        @Html.LabelFor(a => a.Date, "Date: ")
+        @Html.TextBoxFor(a => a.Date)
+
+        <input type="submit" value="Send" />
+       }
+     
+    <div id="AjaxBegin"></div>
+
+    <br /><br /><br /><br /><br /><br /><br />
+    Mustache - return json
+    @using (Ajax.BeginForm(new AjaxOptions()
+    {
+        
+        HttpMethod = "Post",
+        OnSuccess = "ProcessAndUpdate"
+
+
+    }))
+    {
+        @Html.LabelFor(a => a.Nick, "Nick ")
+        @Html.TextBoxFor(a => a.Nick)
+        <br />
+        @Html.LabelFor(a => a.Contents, "Content: ")
+        @Html.TextBoxFor(a => a.Contents)
+        <br />
+        @Html.LabelFor(a => a.Date, "Date: ")
+        @Html.TextBoxFor(a => a.Date)
+
+        <input type="submit" value="Send"  onclick="location.href='@Url.Action("Home", "Index1")">
+    }
+    <div id="resultjson"></div>
+
+    <script id="MessageModeltmp1" type="text/template">
+        <h1>{{Nick}}</h1>
+        <h2>{{Contents}}</h2>
+        <p>{{Date}}</p>
+    </script>
+    <script>
+        function ProcessAndUpdate(result) {
+            var template = $('#MessageModeltmp1').html();
+            var html = Mustache.to_html(template, result);
+            $('#resultjson').html(html);
+        }
+    </script>
+   </body>
+
 </html>

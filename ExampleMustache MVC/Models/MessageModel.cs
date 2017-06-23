@@ -9,6 +9,6 @@ namespace ExampleMustache_MVC.Models
     {
         public string Nick { get; set; }
         public string Contents { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
     }
 }
